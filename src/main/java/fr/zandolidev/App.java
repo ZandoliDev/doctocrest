@@ -7,31 +7,75 @@ package fr.zandolidev;
 public class App 
 {
     public static void main(String[] args) {
-        // Les variables et les types de données
+
+        afficherMessageDeBienvenue();
+
         String nomPatient = "Amina Lopez";
         int agePatient = 28;
         double taillePatient = 1.70;
         boolean aRendezVous = true;
 
+        afficherTypeDePatient(agePatient);
+
         // Informations sur le rendez-vous
         String nomMedecin = "Dr. Chen Wong";
         String specialite = "Cardiologue"; // Peut être "Cardiologue", "Dermatologue", "Pédiatre"
         int dureeRendezVous = 45; // en minutes
-        double coutRendezVous;
 
-        // Les structures de contrôle
+        double coutRendezVous = definirCoutDuRendezVous(specialite);
 
-        // Instruction conditionnelle if-else
-        if (agePatient >= 65) {
-            System.out.println("Le patient est un senior.");
-        } else if (agePatient >= 18) {
-            System.out.println("Le patient est un adulte.");
-        } else {
-            System.out.println("Le patient est un mineur.");
+        afficherInformationsDuPatient(nomPatient, agePatient, taillePatient);
+        afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
+
+        int nombreDeRendezVousPris = 3;
+        afficherLesRendezVousPris(nombreDeRendezVousPris, dureeRendezVous, coutRendezVous);
+
+        int rendezVousRestants = 5;
+        afficherLeDeroulementDesRendezVousRestantsAujourdhui(rendezVousRestants);
+
+        afficherLeDeroulementDesRendezVousPrisAujourdhui(nombreDeRendezVousPris);
+    }
+
+    private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, int dureeRendezVous, double coutRendezVous) {
+        afficherMessage(String.format("A un rendez-vous : %b", aRendezVous));
+        afficherMessage(String.format("Médecin : %s (%s)", nomMedecin, specialite));
+        afficherMessage(String.format("Durée du rendez-vous : %d minutes", dureeRendezVous));
+        afficherMessage(String.format("Coût du rendez-vous : %.2f euros", coutRendezVous));
+    }
+
+    private static void afficherInformationsDuPatient(String nomPatient, int agePatient, double taillePatient) {
+        afficherMessage(String.format("Patient : %s", nomPatient));
+        afficherMessage(String.format("Âge : %d ans", agePatient));
+        afficherMessage(String.format("Taille : %.2f mètres", taillePatient));
+    }
+
+    private static void afficherLeDeroulementDesRendezVousPrisAujourdhui(int nombreDeRendezVousPris) {
+        int nouveauxRendezVous = 0;
+        do {
+            afficherMessage("En attente de nouveaux rendez-vous...");
+            nouveauxRendezVous++;
+            afficherMessage("Nouveau rendez-vous programmé.");
+        } while (nouveauxRendezVous < nombreDeRendezVousPris);
+        afficherMessage(String.format("%d nouveaux rendez-vous ont été programmés.", nouveauxRendezVous));
+    }
+
+    private static void afficherLeDeroulementDesRendezVousRestantsAujourdhui(int rendezVousRestants) {
+        while (rendezVousRestants > 0) {
+            afficherMessage(String.format("Nombre de rendez-vous restants aujourd'hui : %d", rendezVousRestants));
+            rendezVousRestants--;
+            afficherMessage("Un rendez-vous vient de se terminer.");
         }
+    }
 
-        // Instruction conditionnelle switch-case
+    private static void afficherLesRendezVousPris(int nombreDeRendezVousPris, int dureeRendezVous, double coutRendezVous) {
+        afficherMessage(String.format("Les %d prochains rendez-vous :", nombreDeRendezVousPris));
+        for (int i = 1; i <= nombreDeRendezVousPris; i++) {
+            afficherMessage(String.format("Rendez-vous %d : Durée %d minutes, Coût %.2f euros", i, dureeRendezVous, coutRendezVous));
+        }
+    }
 
+    private static double definirCoutDuRendezVous(String specialite) {
+        double coutRendezVous;
         switch (specialite) {
             case "Cardiologue":
                 coutRendezVous = 100.0;
@@ -46,46 +90,25 @@ public class App
                 coutRendezVous = 70.0;
                 break;
         }
-
-        // Affichage des informations du patient et du rendez-vous
-        System.out.printf("Bienvenue sur DoctoCrest !%n");
-        System.out.printf("Patient : %s", nomPatient);
-        System.out.printf("Âge : %d ans%n", agePatient);
-        System.out.printf("Taille : %.2f mètres%n", taillePatient);
-        System.out.printf("A un rendez-vous : %b%n", aRendezVous);
-        System.out.printf("Médecin : %s (%s)%n", nomMedecin, specialite);
-        System.out.printf("Durée du rendez-vous : %d minutes%n", dureeRendezVous);
-        System.out.printf("Coût du rendez-vous : %.2f euros%n", coutRendezVous);
-
-        // Boucle for - Afficher les 3 prochains rendez-vous
-        System.out.println("Les 3 prochains rendez-vous :");
-        for (int i = 1; i <= 3; i++) {
-            System.out.printf("Rendez-vous %d : Durée %d minutes, Coût %.2f euros%n", i, dureeRendezVous, coutRendezVous);
-        }
-
-        // Boucle while - Décrémenter les rendez-vous restants
-        int rendezVousRestants = 5;
-        while (rendezVousRestants > 0) {
-            System.out.printf("Nombre de rendez-vous restants aujourd'hui : %d", rendezVousRestants);
-            rendezVousRestants--;
-            System.out.println("Un rendez-vous vient de se terminer.");
-        }
-
-        // Boucle do-while - Simulation de l'attente de nouveaux rendez-vous
-        int nouveauxRendezVous = 0;
-        do {
-            System.out.println("En attente de nouveaux rendez-vous...");
-            nouveauxRendezVous++;
-            System.out.println("Nouveau rendez-vous programmé.");
-        } while (nouveauxRendezVous < 3);
-        System.out.printf("%d nouveaux rendez-vous ont été programmés.%n", nouveauxRendezVous);
-
-        // Opérateur ternaire
-        int ageMinimumPourTraitement = 18;
-        String messagePatientEligible = "Le patient est éligible pour le traitement.";
-        String messagePatientNonEligible = "Le patient n'est pas éligible pour le traitement.";
-        boolean estEligiblePourTraitement = agePatient >= ageMinimumPourTraitement;
-        String messageEligibilitePatient = estEligiblePourTraitement ? messagePatientEligible : messagePatientNonEligible;
-        System.out.println(messageEligibilitePatient);
+        return coutRendezVous;
     }
+
+    private static void afficherTypeDePatient(int agePatient) {
+        if (agePatient >= 65) {
+            afficherMessage("Le patient est un senior.");
+        } else if (agePatient >= 18) {
+            afficherMessage("Le patient est un adulte.");
+        } else {
+            afficherMessage("Le patient est un mineur.");
+        }
+    }
+
+    private static void afficherMessageDeBienvenue() {
+        afficherMessage("Bienvenue sur DoctoCrest !");
+    }
+
+    private static void afficherMessage(String message) {
+        System.out.println(message);
+    }
+    
 }
