@@ -1,5 +1,6 @@
 package fr.zandolidev;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App
@@ -9,10 +10,8 @@ public class App
         afficherMessageDeBienvenue();
 
         Scanner scanner = new Scanner(System.in);
-        afficherMessage("Entrez le nom du patient");
-        String nomPatient = scanner.nextLine();
-        afficherMessage("Entrez l'âge de %s".formatted(nomPatient));
-        int agePatient = scanner.nextInt();
+        String nomPatient = renseignerNomPatient(scanner);
+        int agePatient = renseignerAgePatient(nomPatient, scanner);
         afficherMessage("Le patient souhaite-il prendre un rendez-vous ? (true/false)");
         boolean aRendezVous = scanner.nextBoolean();
         scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
@@ -35,6 +34,26 @@ public class App
         }
 
         scanner.close();
+    }
+
+    private static int renseignerAgePatient(String nomPatient, Scanner scanner) {
+        afficherMessage("Entrez l'âge de %s".formatted(nomPatient));
+        try {
+            int agePatient = scanner.nextInt();
+            if(agePatient <= 0) {
+                throw new InputMismatchException();
+            }
+            return agePatient;
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            afficherMessage("L'âge doit être plus grand que 0.");
+            return renseignerAgePatient(nomPatient, scanner);
+        }
+    }
+
+    private static String renseignerNomPatient(Scanner scanner) {
+        afficherMessage("Entrez le nom du patient");
+        return scanner.nextLine();
     }
 
     private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, int dureeRendezVous, double coutRendezVous) {
