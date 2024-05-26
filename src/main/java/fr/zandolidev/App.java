@@ -1,96 +1,70 @@
 package fr.zandolidev;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import java.util.Scanner;
+
+public class App
 {
     public static void main(String[] args) {
 
         afficherMessageDeBienvenue();
 
-        String nomPatient = "Amina Lopez";
-        int agePatient = 28;
-        double taillePatient = 1.70;
-        boolean aRendezVous = true;
+        Scanner scanner = new Scanner(System.in);
+        afficherMessage("Entrez le nom du patient");
+        String nomPatient = scanner.nextLine();
+        afficherMessage("Entrez l'âge de %s".formatted(nomPatient));
+        int agePatient = scanner.nextInt();
+        afficherMessage("Le patient souhaite-il prendre un rendez-vous ? (true/false)");
+        boolean aRendezVous = scanner.nextBoolean();
+        scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
 
-        afficherTypeDePatient(agePatient);
+        if(aRendezVous) {
+            afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre)");
+            String nomMedecin = "Dr. Chen Wong";
+            int dureeRendezVous = 45; // en minutes
+            String specialite = scanner.nextLine();
 
-        // Informations sur le rendez-vous
-        String nomMedecin = "Dr. Chen Wong";
-        String specialite = "Cardiologue"; // Peut être "Cardiologue", "Dermatologue", "Pédiatre"
-        int dureeRendezVous = 45; // en minutes
+            double coutRendezVous = definirCoutDuRendezVous(specialite);
+            afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
 
-        double coutRendezVous = definirCoutDuRendezVous(specialite);
+            afficherInformationsDuPatient(nomPatient, agePatient);
+            afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
 
-        afficherInformationsDuPatient(nomPatient, agePatient, taillePatient);
-        afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
+        } else {
+            afficherInformationsDuPatient(nomPatient, agePatient);
+            afficherMessage("Le patient ne souhaite pas prendre de rendez-vous.");
+        }
 
-        int nombreDeRendezVousPris = 3;
-        afficherLesRendezVousPris(nombreDeRendezVousPris, dureeRendezVous, coutRendezVous);
-
-        int rendezVousRestants = 5;
-        afficherLeDeroulementDesRendezVousRestantsAujourdhui(rendezVousRestants);
-
-        afficherLeDeroulementDesRendezVousPrisAujourdhui(nombreDeRendezVousPris);
+        scanner.close();
     }
 
     private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, int dureeRendezVous, double coutRendezVous) {
-        afficherMessage(String.format("A un rendez-vous : %b", aRendezVous));
+        if (aRendezVous) {
+            afficherMessage(String.format("Le patient a un rendez-vous avec le %s", specialite));
+        } else {
+            afficherMessage("Le patient n'a pas de rendez-vous.");
+        }
         afficherMessage(String.format("Médecin : %s (%s)", nomMedecin, specialite));
         afficherMessage(String.format("Durée du rendez-vous : %d minutes", dureeRendezVous));
         afficherMessage(String.format("Coût du rendez-vous : %.2f euros", coutRendezVous));
     }
 
-    private static void afficherInformationsDuPatient(String nomPatient, int agePatient, double taillePatient) {
+    private static void afficherInformationsDuPatient(String nomPatient, int agePatient) {
         afficherMessage(String.format("Patient : %s", nomPatient));
         afficherMessage(String.format("Âge : %d ans", agePatient));
-        afficherMessage(String.format("Taille : %.2f mètres", taillePatient));
-    }
-
-    private static void afficherLeDeroulementDesRendezVousPrisAujourdhui(int nombreDeRendezVousPris) {
-        int nouveauxRendezVous = 0;
-        do {
-            afficherMessage("En attente de nouveaux rendez-vous...");
-            nouveauxRendezVous++;
-            afficherMessage("Nouveau rendez-vous programmé.");
-        } while (nouveauxRendezVous < nombreDeRendezVousPris);
-        afficherMessage(String.format("%d nouveaux rendez-vous ont été programmés.", nouveauxRendezVous));
-    }
-
-    private static void afficherLeDeroulementDesRendezVousRestantsAujourdhui(int rendezVousRestants) {
-        while (rendezVousRestants > 0) {
-            afficherMessage(String.format("Nombre de rendez-vous restants aujourd'hui : %d", rendezVousRestants));
-            rendezVousRestants--;
-            afficherMessage("Un rendez-vous vient de se terminer.");
-        }
-    }
-
-    private static void afficherLesRendezVousPris(int nombreDeRendezVousPris, int dureeRendezVous, double coutRendezVous) {
-        afficherMessage(String.format("Les %d prochains rendez-vous :", nombreDeRendezVousPris));
-        for (int i = 1; i <= nombreDeRendezVousPris; i++) {
-            afficherMessage(String.format("Rendez-vous %d : Durée %d minutes, Coût %.2f euros", i, dureeRendezVous, coutRendezVous));
-        }
+        afficherTypeDePatient(agePatient);
     }
 
     private static double definirCoutDuRendezVous(String specialite) {
-        double coutRendezVous;
         switch (specialite) {
             case "Cardiologue":
-                coutRendezVous = 100.0;
-                break;
+                return 100.0;
             case "Dermatologue":
-                coutRendezVous = 80.0;
-                break;
+                return 80.0;
             case "Pédiatre":
-                coutRendezVous = 90.0;
-                break;
+                return 90.0;
             default:
-                coutRendezVous = 70.0;
-                break;
+                return 70.0;
         }
-        return coutRendezVous;
     }
 
     private static void afficherTypeDePatient(int agePatient) {
