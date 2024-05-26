@@ -7,33 +7,38 @@ public class App
 {
     public static void main(String[] args) {
 
-        afficherMessageDeBienvenue();
-
         Scanner scanner = new Scanner(System.in);
-        String nomPatient = renseignerNomPatient(scanner);
-        int agePatient = renseignerAgePatient(nomPatient, scanner);
-        afficherMessage("Le patient souhaite-il prendre un rendez-vous ? (true/false)");
-        boolean aRendezVous = scanner.nextBoolean();
-        scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
+        try {
+            afficherMessageDeBienvenue();
 
-        if(aRendezVous) {
-            afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre)");
-            String nomMedecin = "Dr. Chen Wong";
-            int dureeRendezVous = 45; // en minutes
-            String specialite = scanner.nextLine();
+            String nomPatient = renseignerNomPatient(scanner);
+            int agePatient = renseignerAgePatient(nomPatient, scanner);
+            afficherMessage("Le patient souhaite-il prendre un rendez-vous ? (true/false)");
+            boolean aRendezVous = scanner.nextBoolean();
+            scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
 
-            double coutRendezVous = definirCoutDuRendezVous(specialite);
-            afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
+            if (aRendezVous) {
+                afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre)");
+                String nomMedecin = "Dr. Chen Wong";
+                int dureeRendezVous = 45; // en minutes
+                String specialite = scanner.nextLine();
 
-            afficherInformationsDuPatient(nomPatient, agePatient);
-            afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
+                double coutRendezVous = definirCoutDuRendezVous(specialite);
+                afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
 
-        } else {
-            afficherInformationsDuPatient(nomPatient, agePatient);
-            afficherMessage("Le patient ne souhaite pas prendre de rendez-vous.");
+                afficherInformationsDuPatient(nomPatient, agePatient);
+                afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
+
+            } else {
+                afficherInformationsDuPatient(nomPatient, agePatient);
+                afficherMessage("Le patient ne souhaite pas prendre de rendez-vous.");
+            }
+        } catch (Exception e) {
+            afficherMessage("Une erreur inattendue est survenue. Veuillez réessayer.");
+        } finally {
+            scanner.close();
         }
 
-        scanner.close();
     }
 
     private static int renseignerAgePatient(String nomPatient, Scanner scanner) {
