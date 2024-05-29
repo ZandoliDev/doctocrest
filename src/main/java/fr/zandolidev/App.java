@@ -1,44 +1,36 @@
 package fr.zandolidev;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.Random;
 
 public class App {
     public static void main(String[] args) {
 
-        try(Scanner scanner = new Scanner(System.in)) {
+        Random random = new Random();
+        for(int i=0; i<10000000; i++) {
             afficherMessageDeBienvenue();
 
-            String[] nomsPraticiens = {"Dr. Alice Martin", "Dr. Li Wei", "Dr. Maria Gonzalez", "Dr. John Smith", "Dr. Adebayo Adeyemi", "Dr. Hiroshi Yamamoto"};
+            String[] nomsPraticiens = {"Dr. Alice Martin", "Dr. Li Wei", "Dr. Maria Gonzalez", "Dr. John Smith", "Dr. Adebayo Adeyemi", "Dr. Hiroshi Yamamoto", "Dr. Elena Ivanova"};
             String[] specialitesPraticiens = {"Cardiologue", "Dermatologue", "Pédiatre", "Neurologue", "Gynécologue", "Généraliste", "Orthopédiste"};
 
-            String nomPatient = renseignerNomPatient(scanner);
-            int agePatient = renseignerAgePatient(nomPatient, scanner);
-            afficherMessage("Le patient souhaite-il prendre un rendez-vous ? (true/false)");
-            boolean aRendezVous = scanner.nextBoolean();
-            scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
+            String nomPatient = "toto";
+            int agePatient = 24;
+            boolean aRendezVous = true;
 
-            if (aRendezVous) {
-                afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre, Neurologue, Gynécologue, Généraliste, Orthopédiste)");
-                String specialite = scanner.nextLine();
+            int indexSpecialite = random.nextInt(specialitesPraticiens.length);
+            String specialite = specialitesPraticiens[indexSpecialite];
+            afficherMessage("Nouveau rendez-vous demandé pour un %s.".formatted(specialite));
 
-                int indexPraticien = trouverPraticienParSpecialite(specialitesPraticiens, specialite);
-                if (indexPraticien == -1) {
-                    afficherMessage("Aucun praticien disponible pour la spécialité demandée.");
-                } else {
-                    String nomMedecin = nomsPraticiens[indexPraticien];
-                    double coutRendezVous = definirCoutDuRendezVous(specialite);
-                    afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
-
-                    afficherInformationsDuPatient(nomPatient, agePatient);
-                    afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, coutRendezVous);
-                }
+            int indexPraticien = trouverPraticienParSpecialite(specialitesPraticiens, specialite);
+            if (indexPraticien == -1) {
+                afficherMessage("Aucun praticien disponible pour la spécialité demandée.");
             } else {
+                String nomMedecin = nomsPraticiens[indexPraticien];
+                double coutRendezVous = definirCoutDuRendezVous(specialite);
+                afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
+
                 afficherInformationsDuPatient(nomPatient, agePatient);
-                afficherMessage("Le patient ne souhaite pas prendre de rendez-vous.");
+                afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, coutRendezVous);
             }
-        } catch (Exception e) {
-            afficherMessage("Une erreur inattendue est survenue. Veuillez réessayer.");
         }
     }
 
@@ -49,26 +41,6 @@ public class App {
             }
         }
         return -1; // Retourne -1 si aucun praticien n'est trouvé pour la spécialité donnée
-    }
-
-    private static int renseignerAgePatient(String nomPatient, Scanner scanner) {
-        afficherMessage("Entrez l'âge de %s".formatted(nomPatient));
-        try {
-            int agePatient = scanner.nextInt();
-            if(agePatient <= 0) {
-                throw new InputMismatchException();
-            }
-            return agePatient;
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-            afficherMessage("L'âge doit être plus grand que 0.");
-            return renseignerAgePatient(nomPatient, scanner);
-        }
-    }
-
-    private static String renseignerNomPatient(Scanner scanner) {
-        afficherMessage("Entrez le nom du patient");
-        return scanner.nextLine();
     }
 
     private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, double coutRendezVous) {
@@ -123,7 +95,7 @@ public class App {
     }
 
     private static void afficherMessage(String message) {
-        System.out.println(message);
+        //System.out.println(message);
     }
-    
+
 }
