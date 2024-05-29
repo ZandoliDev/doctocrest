@@ -3,13 +3,14 @@ package fr.zandolidev;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class App
-{
+public class App {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try(Scanner scanner = new Scanner(System.in)) {
             afficherMessageDeBienvenue();
+
+            String[] nomsPraticiens = {"Dr. Alice Martin", "Dr. Li Wei", "Dr. Maria Gonzalez", "Dr. John Smith", "Dr. Adebayo Adeyemi", "Dr. Hiroshi Yamamoto"};
+            String[] specialitesPraticiens = {"Cardiologue", "Dermatologue", "Pédiatre", "Neurologue", "Gynécologue", "Généraliste", "Orthopédiste"};
 
             String nomPatient = renseignerNomPatient(scanner);
             int agePatient = renseignerAgePatient(nomPatient, scanner);
@@ -18,27 +19,36 @@ public class App
             scanner.nextLine(); // pour consommer le retour à la ligne généré par le bouton "Entrée"
 
             if (aRendezVous) {
-                afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre)");
-                String nomMedecin = "Dr. Chen Wong";
-                int dureeRendezVous = 45; // en minutes
+                afficherMessage("Quelle est la spécialité du médecin à consulter ? (Cardiologue, Dermatologue, Pédiatre, Neurologue, Gynécologue, Généraliste, Orthopédiste)");
                 String specialite = scanner.nextLine();
 
-                double coutRendezVous = definirCoutDuRendezVous(specialite);
-                afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
+                int indexPraticien = trouverPraticienParSpecialite(specialitesPraticiens, specialite);
+                if (indexPraticien == -1) {
+                    afficherMessage("Aucun praticien disponible pour la spécialité demandée.");
+                } else {
+                    String nomMedecin = nomsPraticiens[indexPraticien];
+                    double coutRendezVous = definirCoutDuRendezVous(specialite);
+                    afficherMessage("Le patient souhaite prendre un rendez-vous avec un %s.".formatted(specialite));
 
-                afficherInformationsDuPatient(nomPatient, agePatient);
-                afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, dureeRendezVous, coutRendezVous);
-
+                    afficherInformationsDuPatient(nomPatient, agePatient);
+                    afficherRendezVousDuPatient(aRendezVous, nomMedecin, specialite, coutRendezVous);
+                }
             } else {
                 afficherInformationsDuPatient(nomPatient, agePatient);
                 afficherMessage("Le patient ne souhaite pas prendre de rendez-vous.");
             }
         } catch (Exception e) {
             afficherMessage("Une erreur inattendue est survenue. Veuillez réessayer.");
-        } finally {
-            scanner.close();
         }
+    }
 
+    private static int trouverPraticienParSpecialite(String[] specialitesPraticiens, String specialite) {
+        for (int i = 0; i < specialitesPraticiens.length; i++) {
+            if (specialitesPraticiens[i].equalsIgnoreCase(specialite)) {
+                return i;
+            }
+        }
+        return -1; // Retourne -1 si aucun praticien n'est trouvé pour la spécialité donnée
     }
 
     private static int renseignerAgePatient(String nomPatient, Scanner scanner) {
@@ -61,14 +71,13 @@ public class App
         return scanner.nextLine();
     }
 
-    private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, int dureeRendezVous, double coutRendezVous) {
+    private static void afficherRendezVousDuPatient(boolean aRendezVous, String nomMedecin, String specialite, double coutRendezVous) {
         if (aRendezVous) {
             afficherMessage(String.format("Le patient a un rendez-vous avec le %s", specialite));
         } else {
             afficherMessage("Le patient n'a pas de rendez-vous.");
         }
         afficherMessage(String.format("Médecin : %s (%s)", nomMedecin, specialite));
-        afficherMessage(String.format("Durée du rendez-vous : %d minutes", dureeRendezVous));
         afficherMessage(String.format("Coût du rendez-vous : %.2f euros", coutRendezVous));
     }
 
@@ -86,6 +95,14 @@ public class App
                 return 80.0;
             case "Pédiatre":
                 return 90.0;
+            case "Neurologue":
+                return 120.0;
+            case "Gynécologue":
+                return 110.0;
+            case "Généraliste":
+                return 60.0;
+            case "Orthopédiste":
+                return 100.0;
             default:
                 return 70.0;
         }
