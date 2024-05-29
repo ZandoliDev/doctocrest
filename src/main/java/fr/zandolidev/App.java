@@ -2,6 +2,7 @@ package fr.zandolidev;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Map;
 import java.util.Random;
 
 public class App {
@@ -11,7 +12,15 @@ public class App {
 
         Instant debut = Instant.now();
 
-        String[] nomsPraticiens = {"Dr. Alice Martin", "Dr. Li Wei", "Dr. Maria Gonzalez", "Dr. John Smith", "Dr. Adebayo Adeyemi", "Dr. Hiroshi Yamamoto", "Dr. Elena Ivanova"};
+        Map<String, String> mapNomPraticienParSpecialite = Map.of(
+                "Cardiologue", "Dr. Alice Martin",
+                "Dermatologue", "Dr. Li Wei",
+                "Pédiatre", "Dr. Maria Gonzalez",
+                "Neurologue", "Dr. John Smith",
+                "Gynécologue", "Dr. Adebayo Adeyemi",
+                "Généraliste", "Dr. Hiroshi Yamamoto",
+                "Orthopédiste", "Dr. Elena Ivanova"
+        );
         String[] specialitesPraticiens = {"Cardiologue", "Dermatologue", "Pédiatre", "Neurologue", "Gynécologue", "Généraliste", "Orthopédiste"};
 
         for(int i=0; i<1000000000; i++) {
@@ -19,8 +28,7 @@ public class App {
             int indexSpecialite = random.nextInt(specialitesPraticiens.length);
             String specialite = specialitesPraticiens[indexSpecialite];
 
-            int indexPraticien = trouverPraticienParSpecialite(specialitesPraticiens, specialite);
-            String nomPraticien = nomsPraticiens[indexPraticien];
+            String nomPraticien = mapNomPraticienParSpecialite.get(specialite);
             definirCoutDuRendezVous(specialite);
         }
 
@@ -29,15 +37,6 @@ public class App {
         long secondes = duree.getSeconds() % 60;
         long millis = duree.toMillis() % 1000;
         System.out.printf("Durée de l'opération : %ds %dms", secondes, millis);
-    }
-
-    private static int trouverPraticienParSpecialite(String[] specialitesPraticiens, String specialite) {
-        for (int i = 0; i < specialitesPraticiens.length; i++) {
-            if (specialitesPraticiens[i].equalsIgnoreCase(specialite)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private static double definirCoutDuRendezVous(String specialite) {
