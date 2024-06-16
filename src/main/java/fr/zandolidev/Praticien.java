@@ -1,6 +1,8 @@
 package fr.zandolidev;
 
-public class Praticien {
+import static fr.zandolidev.App.afficherMessage;
+
+public class Praticien implements Utilisateur {
     private final String nom;
     private final Specialite specialite;
 
@@ -19,5 +21,10 @@ public class Praticien {
 
     public String getNom() {
         return nom;
+    }
+
+    @Override
+    public void afficherInformations() {
+        afficherMessage("Praticien %s spécialisé en %s".formatted(nom, specialite));
     }
 }

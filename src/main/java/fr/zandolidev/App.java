@@ -19,7 +19,9 @@ public class App {
 
         try (Scanner scanner = new Scanner(System.in)) {
             Patient patient = renseignerInformationsPatient(scanner);
+            patient.afficherInformations();
             Praticien praticien = choisirPraticien(scanner);
+            praticien.afficherInformations();
             RendezVousMedical rendezVousMedical = new RendezVousMedical(praticien, patient);
 
             rendezVousMedical.afficherRecapitulatif();
@@ -40,6 +42,10 @@ public class App {
         }
         int indexSpecialite = scanner.nextInt();
         Specialite specialiteChoisie = specialites[indexSpecialite];
+        return chercherPraticienDeSpecialite(specialiteChoisie);
+    }
+
+    private static Praticien chercherPraticienDeSpecialite(Specialite specialiteChoisie) {
         for (Praticien praticien : PRATICIENS) {
             if (praticien.exerceSpecialite(specialiteChoisie)) {
                 return praticien;

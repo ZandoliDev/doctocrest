@@ -1,6 +1,8 @@
 package fr.zandolidev;
 
-public class Patient {
+import static fr.zandolidev.App.afficherMessage;
+
+public class Patient implements Utilisateur {
     private final String nom;
 
     public Patient(String nom) {
@@ -9,5 +11,10 @@ public class Patient {
 
     public String getNom() {
         return nom;
+    }
+
+    @Override
+    public void afficherInformations() {
+        afficherMessage("Patient %s".formatted(nom));
     }
 }
