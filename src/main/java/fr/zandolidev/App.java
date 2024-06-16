@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class App {
 
@@ -25,11 +26,11 @@ public class App {
         try (Scanner scanner = new Scanner(System.in)) {
             Personne personne = new Personne("John Doe");
             personne.afficherInformations();
-            Personne patient = renseignerInformationsPatient(scanner);
+            Patient patient = renseignerInformationsPatient(scanner);
             patient.afficherInformations();
-            Personne praticien = choisirPraticien(scanner);
+            Praticien praticien = choisirPraticien(scanner);
             praticien.afficherInformations();
-            RendezVousMedical rendezVousMedical = new RendezVousMedical((Praticien) praticien, (Patient) patient);
+            RendezVousMedical rendezVousMedical = new RendezVousMedical(praticien, patient);
 
             rendezVousMedical.afficherRecapitulatif();
         }
@@ -44,21 +45,19 @@ public class App {
     private static Praticien choisirPraticien(Scanner scanner) {
         afficherMessage("Saisir le numéro de la spécialité du praticien :");
         Specialite[] specialites = Specialite.values();
-        for (int i = 0; i < specialites.length; i++) {
-            afficherMessage("%d - %s".formatted(i, specialites[i]));
-        }
+        IntStream.range(0, specialites.length)
+                .mapToObj(i -> "%d - %s".formatted(i, specialites[i]))
+                .forEach(App::afficherMessage);
         int indexSpecialite = scanner.nextInt();
         Specialite specialiteChoisie = specialites[indexSpecialite];
         return chercherPraticienDeSpecialite(specialiteChoisie);
     }
 
     private static Praticien chercherPraticienDeSpecialite(Specialite specialiteChoisie) {
-        for (Praticien praticien : PRATICIENS) {
-            if (praticien.exerceSpecialite(specialiteChoisie)) {
-                return praticien;
-            }
-        }
-        return null;
+        return PRATICIENS.stream()
+                .filter(praticien -> praticien.exerceSpecialite(specialiteChoisie))
+                .findFirst()
+                .orElseThrow();
     }
 
     public static void afficherMessage(String message) {
