@@ -2,12 +2,11 @@ package fr.zandolidev;
 
 import static fr.zandolidev.App.afficherMessage;
 
-public class Praticien implements Utilisateur {
-    private final String nom;
+public class Praticien extends Personne {
     private final Specialite specialite;
 
     public Praticien(String nom, Specialite specialite) {
-        this.nom = nom;
+        super(nom);
         this.specialite = specialite;
     }
 
@@ -17,10 +16,6 @@ public class Praticien implements Utilisateur {
 
     public boolean exerceSpecialite(Specialite specialiteChoisie) {
         return specialiteChoisie == this.specialite;
-    }
-
-    public String getNom() {
-        return nom;
     }
 
     @Override

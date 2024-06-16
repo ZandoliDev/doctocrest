@@ -18,11 +18,13 @@ public class App {
     public static void main(String[] args) {
 
         try (Scanner scanner = new Scanner(System.in)) {
-            Patient patient = renseignerInformationsPatient(scanner);
+            Personne personne = new Personne("John Doe");
+            personne.afficherInformations();
+            Personne patient = renseignerInformationsPatient(scanner);
             patient.afficherInformations();
-            Praticien praticien = choisirPraticien(scanner);
+            Personne praticien = choisirPraticien(scanner);
             praticien.afficherInformations();
-            RendezVousMedical rendezVousMedical = new RendezVousMedical(praticien, patient);
+            RendezVousMedical rendezVousMedical = new RendezVousMedical((Praticien) praticien, (Patient) patient);
 
             rendezVousMedical.afficherRecapitulatif();
         }

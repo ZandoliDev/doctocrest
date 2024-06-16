@@ -2,15 +2,10 @@ package fr.zandolidev;
 
 import static fr.zandolidev.App.afficherMessage;
 
-public class Patient implements Utilisateur {
-    private final String nom;
+public class Patient extends Personne {
 
     public Patient(String nom) {
-        this.nom = nom;
-    }
-
-    public String getNom() {
-        return nom;
+        super(nom);
     }
 
     @Override
