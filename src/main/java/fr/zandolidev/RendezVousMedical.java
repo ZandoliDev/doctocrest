@@ -1,8 +1,12 @@
 package fr.zandolidev;
 
-import static fr.zandolidev.App.afficherMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RendezVousMedical {
+
+    private static final Logger LOGGER = LogManager.getLogger(RendezVousMedical.class);
+
     private final Praticien praticien;
     private final Patient patient;
 
@@ -12,12 +16,11 @@ public class RendezVousMedical {
     }
 
     public void afficherRecapitulatif() {
-        afficherMessage(
-                "%s a rendez-vous avec %s pour un montant de %.2f €".formatted(
-                        patient.getNom(),
-                        praticien.getNom(),
-                        getPrix()
-                )
+        LOGGER.info(
+                "{} a rendez-vous avec {} pour un montant de {} €",
+                patient.getNom(),
+                praticien.getNom(),
+                "%.2f".formatted(getPrix())
         );
     }
 

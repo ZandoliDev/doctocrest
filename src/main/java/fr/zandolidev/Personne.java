@@ -1,8 +1,11 @@
 package fr.zandolidev;
 
-import static fr.zandolidev.App.afficherMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Personne implements Utilisateur {
+
+    private static final Logger LOGGER = LogManager.getLogger(Personne.class);
 
     protected final String nom;
 
@@ -17,6 +20,6 @@ public class Personne implements Utilisateur {
 
     @Override
     public void afficherInformations() {
-        afficherMessage("Personne %s".formatted(nom));
+        LOGGER.info("Personne {}", nom);
     }
 }

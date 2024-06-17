@@ -1,8 +1,11 @@
 package fr.zandolidev;
 
-import static fr.zandolidev.App.afficherMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Patient extends Personne {
+
+    private static final Logger LOGGER = LogManager.getLogger(Patient.class);
 
     public Patient(String nom) {
         super(nom);
@@ -10,6 +13,6 @@ public class Patient extends Personne {
 
     @Override
     public void afficherInformations() {
-        afficherMessage("Patient %s".formatted(nom));
+        LOGGER.info("Patient {}", nom);
     }
 }

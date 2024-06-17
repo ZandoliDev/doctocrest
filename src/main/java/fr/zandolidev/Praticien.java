@@ -1,8 +1,12 @@
 package fr.zandolidev;
 
-import static fr.zandolidev.App.afficherMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Praticien extends Personne {
+
+    private static final Logger LOGGER = LogManager.getLogger(Praticien.class);
+
     private final Specialite specialite;
 
     public Praticien(String nom, Specialite specialite) {
@@ -20,6 +24,6 @@ public class Praticien extends Personne {
 
     @Override
     public void afficherInformations() {
-        afficherMessage("Praticien %s spécialisé en %s".formatted(nom, specialite));
+        LOGGER.info("Praticien {} spécialisé en {}", nom, specialite);
     }
 }

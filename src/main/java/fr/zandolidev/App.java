@@ -1,9 +1,14 @@
 package fr.zandolidev;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
+
+    private static final Logger LOGGER = LogManager.getLogger(App.class);
 
     static final List<Praticien> PRATICIENS = List.of(
             new Praticien("Dr. Alice Martin", Specialite.CARDIOLOGUE),
@@ -57,7 +62,7 @@ public class App {
     }
 
     public static void afficherMessage(String message) {
-        System.out.println(message);
+        LOGGER.info(message);
     }
 
 }
