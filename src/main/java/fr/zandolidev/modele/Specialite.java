@@ -1,4 +1,4 @@
-package fr.zandolidev;
+package fr.zandolidev.modele;
 
 public enum Specialite {
     CARDIOLOGUE(100.0),

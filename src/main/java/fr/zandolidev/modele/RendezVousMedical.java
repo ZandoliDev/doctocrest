@@ -1,4 +1,7 @@
-package fr.zandolidev;
+package fr.zandolidev.modele;
+
+import fr.zandolidev.modele.personne.Patient;
+import fr.zandolidev.modele.personne.Praticien;
 
 public class RendezVousMedical {
 

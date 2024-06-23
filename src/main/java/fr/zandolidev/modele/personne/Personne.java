@@ -1,4 +1,4 @@
-package fr.zandolidev;
+package fr.zandolidev.modele.personne;
 
 public class Personne implements Utilisateur {
 

@@ -1,8 +1,18 @@
-package fr.zandolidev;
+package fr.zandolidev.modele.personne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.zandolidev.modele.Specialite;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Praticien extends Personne {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private final Specialite specialite;
 

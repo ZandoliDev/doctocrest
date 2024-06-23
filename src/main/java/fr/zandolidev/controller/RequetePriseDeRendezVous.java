@@ -1,4 +1,7 @@
-package fr.zandolidev;
+package fr.zandolidev.controller;
+
+import fr.zandolidev.modele.personne.Patient;
+import fr.zandolidev.modele.Specialite;
 
 public class RequetePriseDeRendezVous {
 
